@@ -1,20 +1,20 @@
-import { Button} from "./components/Button";
+
 import { ThemeProvider } from 'styled-components';
 import { defaultTheme } from "./styles/themes/default";
 import { GlobalStyle } from "./styles/global";
+import { Router } from './Router';
+import { BrowserRouter } from 'react-router-dom';
+
 
 export function App() {
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Button variant='primary'/>
-      <Button variant='secundary'/>
-      <Button variant='danger'/>
-      <Button variant='success'/>
-      <Button/>
-
-      aa
-      <GlobalStyle />
-    </ThemeProvider>
+    <BrowserRouter>
+      <ThemeProvider theme={defaultTheme}>
+        <Router/>
+        <GlobalStyle />
+      </ThemeProvider>
+    </BrowserRouter>
+    
   )
 }
 
