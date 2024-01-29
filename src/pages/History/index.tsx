@@ -1,4 +1,4 @@
-import { HistoryContainer, HistoryList } from "./styles";
+import { HistoryContainer, HistoryList, StatusContainer } from "./styles";
 
 export function History(){
     return (
@@ -19,31 +19,41 @@ export function History(){
                                 <td>tarefa</td>
                                 <td>20 minutos</td>
                                 <td>Ha 2 meses</td>
-                                <td>Concluido</td>
+                                <td>
+                                <StatusContainer statusColor="green">Concluido</StatusContainer>
+                                </td>
                             </tr>
                             <tr>
                                 <td>tarefa</td>
                                 <td>20 minutos</td>
                                 <td>Ha 2 meses</td>
-                                <td>Concluido</td>
+                                <td>
+                                <StatusContainer statusColor="green">Concluido</StatusContainer>
+                                </td>
                             </tr>
                             <tr>
                                 <td>tarefa</td>
                                 <td>20 minutos</td>
                                 <td>Ha 2 meses</td>
-                                <td>Concluido</td>
+                                <td>
+                                <StatusContainer statusColor="green">Concluido</StatusContainer>
+                                </td>
                             </tr>
                             <tr>
                                 <td>tarefa</td>
                                 <td>20 minutos</td>
                                 <td>Ha 2 meses</td>
-                                <td>Concluido</td>
+                                <td>
+                                <StatusContainer statusColor="yellow">Em andamento</StatusContainer>
+                                </td>
                             </tr>
                             <tr>
                                 <td>tarefa</td>
                                 <td>20 minutos</td>
                                 <td>Ha 2 meses</td>
-                                <td>Concluido</td>
+                                <td>
+                                <StatusContainer statusColor="red">Interrompido</StatusContainer>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
