@@ -55,7 +55,7 @@ export const TaskInputContainer = styled(BaseInput)`
 `
 
 export const MinutesAmountInputContainer = styled(BaseInput)`
-  width: 4rem;
+    width: 4rem;
 `
 
 export const CountdownContainer = styled.div`
