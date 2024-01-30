@@ -3,7 +3,8 @@ import { CountdownContainer, FormContainer, HomeContainer, MinutesAmountInputCon
 import { useForm } from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from 'zod'
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { differenceInSeconds } from "date-fns";
 
 
 const newCycleFormValidationSchema = zod.object({
@@ -25,13 +26,14 @@ interface Cycle {
     id: string
     task: string
     minutesAmount: number
+    startDate: Date
 }
 
 export function Home(){
 
     const [cycles, setCycles] = useState<Cycle[]>([])
     const [activeIdCycle, setActiveIdCycle] = useState<string | null>(null)
-    const [amountMinutesPassed, setAmountMinutesPassed] = useState(0)
+    const [amountSecondsPassed, setAmountSecondsPassed] = useState(0)
 
     const { register, handleSubmit, watch, formState, reset} = useForm<NewCycleFormData>({
         resolver: zodResolver(newCycleFormValidationSchema),
@@ -47,22 +49,36 @@ export function Home(){
             id: String(new Date().getTime()),
             task: data.task,
             minutesAmount: data.minutesAmount,
+            startDate: new Date()
         }
 
         setCycles((state) => [...state, newCycle])
         setActiveIdCycle(newCycle.id)
+        setAmountSecondsPassed(0)
 
         reset()
     }
 
     const activeCycle = cycles.find((cycle) => cycle.id == activeIdCycle)
-    console.log(activeCycle)
+    
+    useEffect(() => {
+        let interval: number
+
+        if(activeCycle){
+            interval = setInterval(() => {
+                setAmountSecondsPassed(differenceInSeconds(new Date(), activeCycle.startDate))
+            })
+        }
+        return () => {
+            clearInterval(interval)
+        }
+    }, [activeCycle])
 
     const task = watch('task')
     const isSubmitDisabled = !task
 
     const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0
-    const currentSeconds = activeCycle ? totalSeconds - amountMinutesPassed : 0
+    const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0
 
     const minutesAmount = Math.floor(currentSeconds / 60)
     const secondsAmount = currentSeconds % 60
