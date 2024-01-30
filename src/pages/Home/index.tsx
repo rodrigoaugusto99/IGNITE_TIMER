@@ -3,6 +3,7 @@ import { CountdownContainer, FormContainer, HomeContainer, MinutesAmountInputCon
 import { useForm } from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from 'zod'
+import { useState } from "react";
 
 
 const newCycleFormValidationSchema = zod.object({
@@ -20,8 +21,17 @@ const newCycleFormValidationSchema = zod.object({
 
 type NewCycleFormData = zod.infer<typeof newCycleFormValidationSchema>
 
+interface Cycle {
+    id: string
+    task: string
+    minutesAmount: number
+}
 
 export function Home(){
+
+    const [cycles, setCycles] = useState<Cycle[]>([])
+    const [activeIdCycle, setActiveIdCycle] = useState<string | null>(null)
+    const [amountMinutesPassed, setAmountMinutesPassed] = useState(0)
 
     const { register, handleSubmit, watch, formState, reset} = useForm<NewCycleFormData>({
         resolver: zodResolver(newCycleFormValidationSchema),
@@ -32,14 +42,33 @@ export function Home(){
     })
 
     function handleCreateNewCycle(data: NewCycleFormData){
-        console.log(data)
+        
+        const newCycle = {
+            id: String(new Date().getTime()),
+            task: data.task,
+            minutesAmount: data.minutesAmount,
+        }
+
+        setCycles((state) => [...state, newCycle])
+        setActiveIdCycle(newCycle.id)
+
         reset()
     }
 
-    console.log(formState.errors)
+    const activeCycle = cycles.find((cycle) => cycle.id == activeIdCycle)
+    console.log(activeCycle)
 
     const task = watch('task')
     const isSubmitDisabled = !task
+
+    const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0
+    const currentSeconds = activeCycle ? totalSeconds - amountMinutesPassed : 0
+
+    const minutesAmount = Math.floor(currentSeconds / 60)
+    const secondsAmount = currentSeconds % 60
+
+    const minutes = String(minutesAmount).padStart(2, '0')
+    const seconds = String(secondsAmount).padStart(2, '0')
     
     return (
         <HomeContainer>
@@ -74,11 +103,11 @@ export function Home(){
                 </FormContainer>
                 
                 <CountdownContainer>
-                    <span>0</span>
-                    <span>0</span>
+                    <span>{minutes[0]}</span>
+                    <span>{minutes[1]}</span>
                     <SeparatorContainer>:</SeparatorContainer>
-                    <span>0</span>
-                    <span>0</span>
+                    <span>{seconds[0]}</span>
+                    <span>{seconds[1]}</span>
                 </CountdownContainer>
 
                 <StarCountdownButton disabled={isSubmitDisabled} type="submit">
@@ -89,3 +118,4 @@ export function Home(){
         </HomeContainer>
     )
 }
+
