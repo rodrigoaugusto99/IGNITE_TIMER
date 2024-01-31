@@ -7,8 +7,8 @@ import { CyclesContext } from "../..";
 
 export function Countdown(){
 
-    const { activeCycle, activeIdCycle, setCycles } = useContext(CyclesContext)
-    const [amountSecondsPassed, setAmountSecondsPassed] = useState(0)
+    const { activeCycle, activeIdCycle, setCycles, amountSecondsPassed, setAmountSecondsPassed } = useContext(CyclesContext)
+    
 
     const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0
 
@@ -51,7 +51,7 @@ export function Countdown(){
         return () => {
             clearInterval(interval)
         }
-    }, [activeCycle, totalSeconds, activeIdCycle])
+    }, [activeCycle, totalSeconds, activeIdCycle, setAmountSecondsPassed])
     
     return (
         <CountdownContainer>
