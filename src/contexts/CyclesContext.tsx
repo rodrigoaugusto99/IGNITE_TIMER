@@ -1,5 +1,6 @@
 import { ReactNode, createContext, useReducer, useState } from "react"
-import { Cycle, cyclesReducer } from "../reducers/cycles"
+import { Cycle, cyclesReducer } from "../reducers/cycles/reducer"
+import { addNewCycleAction, interruptedCycleAction } from "../reducers/cycles/actions"
 
 
 interface CreateCycleData {
@@ -51,23 +52,13 @@ export function CycleContextProvider({ children } : CycleContextProviderProps) {
         }
 
         //setCycles((state) => [...state, newCycle])
-        dispatch({
-            type: 'ADD_NEW_CYCLE',
-            payload: {
-                newCycle
-            }
-        })
+        dispatch(addNewCycleAction(newCycle))
         //setActiveIdCycle(newCycle.id)
         setAmountSecondsPassed(0)
     }
 
     function interruptCycle() {
-        dispatch({
-            type: 'INTERRUPT_CYCLE',
-            payload: {
-                activeIdCycle
-            }
-        })
+        dispatch(interruptedCycleAction())
         /*setCycles((state) => 
                 state.map((cycle) => {
                 if(cycle.id == activeIdCycle){
