@@ -12,8 +12,14 @@ interface CycleState{
     activeIdCycle: string | null
 }
 
+export const enum ActionTypes{
+    ADD_NEW_CYCLE =  'ADD_NEW_CYCLE',
+    INTERRUPT_CYCLE =  'INTERRUPT_CYCLE',
+    MARK_CYCLE_AS_FINISHED =  'MARK_CYCLE_AS_FINISHED',
+}
+
 export function cyclesReducer(state: CycleState, action: any){
-    if(action.type == 'ADD_NEW_CYCLE'){
+    if(action.type == ActionTypes.ADD_NEW_CYCLE){
         return {
             ...state,
             cycles: [...state.cycles, action.payload.newCycle],
@@ -21,7 +27,7 @@ export function cyclesReducer(state: CycleState, action: any){
         }
     }
 
-    if(action.type == 'INTERRUPT_CYCLE'){
+    if(action.type == ActionTypes.INTERRUPT_CYCLE){
         return {
             ...state,
             cycles: state.cycles.map((cycle) => {
@@ -35,7 +41,7 @@ export function cyclesReducer(state: CycleState, action: any){
         }
     }
 
-    if(action.type == 'MARK_CYCLE_AS_FINISHED'){
+    if(action.type == ActionTypes.MARK_CYCLE_AS_FINISHED){
         return {
             ...state,
             cycles: state.cycles.map((cycle) => {

@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { CountdownContainer, SeparatorContainer } from "../../styles";
 import { differenceInSeconds } from "date-fns";
 import { CyclesContext } from "../../../../contexts/CyclesContext";
+import { ActionTypes } from "../../../../reducers/cycles";
 
 
 export function Countdown(){
@@ -31,7 +32,7 @@ export function Countdown(){
 
                 if(secondsDifference >= totalSeconds){
                     dispatch({
-                        type: 'MARK_CYCLE_AS_FINISHED',
+                        type: ActionTypes.ADD_NEW_CYCLE,
                         payload: {
                             activeIdCycle
                         }
