@@ -6,7 +6,7 @@ import { CyclesContext } from "../../../../contexts/CyclesContext";
 
 export function Countdown(){
 
-    const { activeCycle, activeIdCycle, setCycles, amountSecondsPassed, setAmountSecondsPassed } = useContext(CyclesContext)
+    const { activeCycle, activeIdCycle, dispatch, amountSecondsPassed, setAmountSecondsPassed } = useContext(CyclesContext)
     
 
     const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0
@@ -30,7 +30,13 @@ export function Countdown(){
                 const secondsDifference = differenceInSeconds(new Date(), activeCycle.startDate)
 
                 if(secondsDifference >= totalSeconds){
-                    setCycles((state) =>
+                    dispatch({
+                        type: 'MARK_CYCLE_AS_FINISHED',
+                        payload: {
+                            activeIdCycle
+                        }
+                    })
+                    /*setCycles((state) =>
                             state.map((cycle) => {
                             if(cycle.id == activeIdCycle){
                                 return { ...cycle, finishedDate: new Date()}
@@ -38,7 +44,7 @@ export function Countdown(){
                                 return cycle
                             }
                         })
-                    ) 
+                    ) */
                     setAmountSecondsPassed(totalSeconds)
                     clearInterval(interval)
                 } else {
