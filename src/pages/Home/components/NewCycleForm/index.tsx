@@ -1,14 +1,12 @@
-import { useForm, useFormContext } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { FormContainer, MinutesAmountInputContainer, TaskInputContainer } from "../../styles";
-import { zodResolver } from "@hookform/resolvers/zod";
-
 import { useContext } from "react";
-import { CyclesContext } from "../..";
+import { CyclesContext } from "../../../../contexts/CyclesContext";
 
 
 
 export function NewCycleForm() {
-    const { activeCycle, activeIdCycle, setCycles, setActiveIdCycle} = useContext(CyclesContext)
+    const { activeCycle } = useContext(CyclesContext)
     const { register} = useFormContext()
 
 
